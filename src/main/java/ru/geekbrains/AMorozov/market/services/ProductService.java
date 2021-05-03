@@ -1,10 +1,7 @@
 package ru.geekbrains.AMorozov.market.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.AMorozov.market.model.Product;
 import ru.geekbrains.AMorozov.market.repositories.ProductRepository;
 
@@ -20,16 +17,19 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> findOneById (Long id){
+    public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
-    public void deleteOneById (Long id){
+    public void deleteById(Long id){
         productRepository.deleteById(id);
     }
 
+    public Product createNewProduct(Product product) {
+        return productRepository.save(product);
+    }
 
-    public Product createNewProduct(Product product){
+    public Product changePriceById(Product product){
         return productRepository.save(product);
     }
 }

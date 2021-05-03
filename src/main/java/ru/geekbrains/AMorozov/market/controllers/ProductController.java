@@ -1,6 +1,7 @@
 package ru.geekbrains.AMorozov.market.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.AMorozov.market.model.Product;
 import ru.geekbrains.AMorozov.market.services.ProductService;
@@ -14,22 +15,29 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> findAll(){
+    public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
-    @GetMapping(name = "/{id}")
-    public Product findOne(@PathVariable Long id){
-        return productService.findOneById(id).get();
+    @GetMapping("/{id}")
+    public Product getOneProductById(@PathVariable Long id) {
+        return productService.findById(id).get();
     }
 
-    @DeleteMapping(name = "/delete/{id}")
-    public void deleteOneById(@PathVariable Long id){
-        productService.deleteOneById(id);
+    @DeleteMapping
+    public void deleteProduct(@RequestBody Product product) {
+        productService.deleteById(product.getId());
     }
 
-    @PostMapping(name = "/add")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Product createNewProduct(@RequestBody Product product){
         return productService.createNewProduct(product);
+    }
+
+    @PutMapping("/price")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Product changePriceById(@RequestBody Product product){
+        return productService.changePriceById(product);
     }
 }
