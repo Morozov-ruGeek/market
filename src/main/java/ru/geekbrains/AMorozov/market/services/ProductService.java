@@ -29,7 +29,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product changePriceById(Product product){
+    public Product changeProduct(Product product){
         return productRepository.save(product);
     }
 }
