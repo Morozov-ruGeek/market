@@ -1,16 +1,15 @@
 package ru.geekbrains.AMorozov.market.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @Entity
-@Data
 @Table(name = "products")
 @NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +21,10 @@ public class Product {
 
     @Column(name = "price")
     private Long price;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Override
     public String toString() {
