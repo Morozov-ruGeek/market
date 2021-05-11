@@ -1,24 +1,49 @@
 package ru.geekbrains.AMorozov.market.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.annotation.PostConstruct;
+import java.util.*;
 
-@Entity
+@Component
 @Data
 @NoArgsConstructor
-/*
-* В последствии необходимо реализовать сущность Users и создание корзины (h2.db) для каждого id_user
- */
+@AllArgsConstructor
 public class Cart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private  String title;
-    private Long price;
+
+    private List<Product> products;
+    private int sum;
+
+    @PostConstruct
+    private void init() {
+        products = new ArrayList<>(Arrays.asList());
+    }
+
+    public List<Product> findAll() {
+        return Collections.unmodifiableList(products);
+    }
+
+    public void save(Product product) {
+        products.add(product);
+        sum += product.getPrice();
+    }
+
+    public void deleteById(Long id){
+        for (Product product : products) {
+            if(product.getId() == id){
+                sum -= product.getPrice();
+                products.remove(product);
+                return;
+            }
+        }
+    }
+
+    public void clearCart(){
+        products.clear();
+        sum = 0;
+    }
 
 }
