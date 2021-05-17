@@ -1,7 +1,7 @@
 package ru.geekbrains.AMorozov.market.controllers;
 
+
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.validation.BindingResult;
@@ -14,18 +14,16 @@ import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.AMorozov.market.model.Product;
 import ru.geekbrains.AMorozov.market.services.ProductService;
 
-import javax.transaction.Transactional;
+
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
-@Slf4j
 public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    @Transactional
     public Page<ProductDto> getAllProducts(@RequestParam(name = "p", defaultValue = "1") int page) {
         Page<Product> productsPage = productService.findPage(page - 1, 10);
         Page<ProductDto> dtoPage = new PageImpl<>(productsPage.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), productsPage.getPageable(), productsPage.getTotalElements());

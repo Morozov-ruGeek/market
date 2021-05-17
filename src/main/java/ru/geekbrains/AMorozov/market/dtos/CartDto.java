@@ -3,8 +3,9 @@ package ru.geekbrains.AMorozov.market.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.geekbrains.AMorozov.market.model.Cart;
+import ru.geekbrains.AMorozov.market.utils.Cart;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,11 +13,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDto {
-    private List<ProductDto> cartProductsDto;
-    private int sum;
+    private List<OrderItemDto> cartProductsDto;
+    private BigDecimal sum;
 
     public CartDto(Cart cart){
-        sum = cart.getSum();
-        this.cartProductsDto = cart.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
+        this.cartProductsDto = cart.getItems().stream().map(OrderItemDto::new).collect(Collectors.toList());
+        this.sum = cart.getSum();
     }
 }

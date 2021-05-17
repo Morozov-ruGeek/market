@@ -2,39 +2,33 @@ package ru.geekbrains.AMorozov.market.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.geekbrains.AMorozov.market.dtos.CartDto;
-import ru.geekbrains.AMorozov.market.services.CartService;
+import ru.geekbrains.AMorozov.market.utils.Cart;
 
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/cart")
+@RequiredArgsConstructor
 @Slf4j
 public class CartController {
-    private final CartService cartService;
+    private final Cart cart;
+
+    @GetMapping("/add/{productId}")
+    public void addToCart(@PathVariable(name = "productId") Long id) {
+        cart.addToCart(id);
+    }
+
+    @GetMapping("/clear")
+    public void clearCart() {
+        cart.clear();
+    }
 
     @GetMapping
-    public CartDto getCart(){
-        return cartService.getProductsFromCart();
-    }
-
-    @PostMapping(name = "/add/{id}")
-    public void addProductInCart(@RequestParam Long id){
-        cartService.addProductInCart(id);
-        log.info("Added product id " + id);
-    }
-
-    @DeleteMapping("/clear")
-    public void clearCart(){
-        cartService.clearCart();
-        log.info("Cart clear");
-    }
-
-    @DeleteMapping
-    public void deleteProduct(@PathVariable Long id){
-        cartService.deleteById(id);
-        log.info("Product id " + id + "deleted");
+    public CartDto getCart() {
+        return new CartDto(cart);
     }
 }
