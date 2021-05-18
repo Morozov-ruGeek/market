@@ -36,8 +36,8 @@ values
 (2, 2);
 
 create table categories (
-                            id           bigserial primary key,
-                            title        varchar(255),
+                            id                              bigserial primary key,
+                            title                           varchar(255),
                             created_at                      timestamp default current_timestamp,
                             updated_at                      timestamp default current_timestamp
 );
@@ -47,9 +47,9 @@ values
 ('Food');
 
 create table products (
-                          id           bigserial primary key,
-                          title        varchar(255),
-                          price        numeric (8, 2),
+                          id                              bigserial primary key,
+                          title                           varchar(255),
+                          price                           numeric (8, 2),
                           category_id                     bigint references categories (id),
                           created_at                      timestamp default current_timestamp,
                           updated_at                      timestamp default current_timestamp
@@ -62,11 +62,21 @@ values
 ('Cheese', 325.00, 1);
 
 create table order_items (
-                             id           bigserial primary key,
-                             product_id                      bigint references products (id),
-                             quantity     int,
-                             price_per_product               numeric (8, 2),
-                             price        numeric (8, 2),
-                             created_at                      timestamp default current_timestamp,
-                             updated_at                      timestamp default current_timestamp
+                             id                             bigserial primary key,
+                             product_id                     bigint references products (id),
+                             quantity                       int,
+                             price_per_product              numeric (8, 2),
+                             price                          numeric (8, 2),
+                             created_at                     timestamp default current_timestamp,
+                             updated_at                     timestamp default current_timestamp
+);
+
+create table orders(
+                          id                                bigserial primary key,
+                          product_id                        bigint references products (id),
+                          quantity                          int,
+                          price_per_product                 numeric (8, 2),
+                          price                             numeric (8, 2),
+                          created_at                        timestamp default current_timestamp,
+                          updated_at                        timestamp default current_timestamp
 );
