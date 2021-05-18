@@ -102,9 +102,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="oi in cartDto.items">
+        <tr ng-repeat="oi in cartDto.cartProductsDto">
             <td>{{oi.productTitle}}</td>
             <td>
+                <button class="btn btn-primary" ng-click="removeFromCart(oi.productId)">-</button>
                 {{oi.quantity}}
                 <button class="btn btn-primary" ng-click="addToCart(oi.productId)">+</button>
             </td>

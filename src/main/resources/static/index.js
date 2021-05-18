@@ -24,7 +24,6 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
             $scope.paginationArray = $scope.generatePagesIndexes(minPageIndex, maxPageIndex);
 
-            console.log("PAGE FROM BACKEND")
             console.log($scope.productsPage);
         });
     };
@@ -56,6 +55,15 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     $scope.addToCart = function (productId) {
         $http({
             url: contextPath + '/api/v1/cart/add/' + productId,
+            method: 'GET'
+        }).then(function (response) {
+            $scope.loadCart();
+        });
+    }
+
+    $scope.removeFromCart = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/remove/' + productId,
             method: 'GET'
         }).then(function (response) {
             $scope.loadCart();

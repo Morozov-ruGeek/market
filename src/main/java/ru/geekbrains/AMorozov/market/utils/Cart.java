@@ -59,9 +59,9 @@ public class Cart {
     }
 
     public void deleteProduct(Long id) {
-        for (OrderItem item : items) {
-            if (item.getProduct().getId().equals(id)) {
-                items.remove(item);
+        for (OrderItem orderItem : items) {
+            if (orderItem.getProduct().getId().equals(id)) {
+                orderItem.decrementQuantity();
                 recalculate();
                 return;
             }
