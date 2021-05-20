@@ -2,15 +2,10 @@ package ru.geekbrains.AMorozov.market.dtos;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
-public class JwtRequest {
+public class NewUserRegistrationDto {
     private String username;
     private String password;
-}
+    private String email;
 
-// {
-//    "username": "Bob",
-//    "password": "100"
-// }
+}

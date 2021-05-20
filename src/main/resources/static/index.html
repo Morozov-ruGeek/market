@@ -64,7 +64,7 @@
             <td>{{p.categoryTitle}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-outline-primary" ng-click="addToCart(p.id)">Add to Cart</button>
+                <button class="btn btn-outline-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
             </td>
         </tr>
         </tbody>
@@ -92,8 +92,8 @@
     </nav>
 
     <p></p>
-    <h4>Cart</h4>
-    <table class="table">
+    <h4>Корзина</h4>
+    <table class="table" ng-if="cartDto.items.length > 0">
         <thead>
         <tr>
             <th scope="col">Название</th>
@@ -102,7 +102,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="oi in cartDto.cartProductsDto">
+        <tr ng-repeat="oi in cartDto.items">
             <td>{{oi.productTitle}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="removeFromCart(oi.productId)">-</button>
@@ -118,22 +118,59 @@
         </tr>
         </tbody>
     </table>
+    <span ng-if="cartDto.items.length == 0">Ваша корзина пуста</span>
+    <button ng-click="clearCart()" class="btn btn-primary" ng-if="cartDto.items.length > 0">Очистить корзину</button>
 
-<!--    <p></p>-->
-<!--    <h4>Add new product</h4>-->
-<!--    <div>-->
-<!--        <form novalidate ng-submit="createNewProduct()">-->
-<!--            <div class="mb-3">-->
-<!--                <label for="inputTitle" class="form-label">Title</label>-->
-<!--                <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle" aria-describedby="titleHelp">-->
-<!--            </div>-->
-<!--            <div class="mb-3">-->
-<!--                <label for="inputPrice" class="form-label">Price</label>-->
-<!--                <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice" aria-describedby="priceHelp">-->
-<!--            </div>-->
-<!--            <button type="submit" class="btn btn-primary">Submit</button>-->
-<!--        </form>-->
-<!--    </div>-->
+
+
+    <div ng-if="isUserLoggedIn()">
+        <p></p>
+        <h4>Оформление заказа</h4>
+<!--        todo изменить ng-model в input`ах-->
+        <form class="mb3" ng-submit="saveOrder()">
+            <input class="form-control" ng-model="newOrder.address" type="text" placeholder="Адрес доставки"
+                   aria-label="Adress" name="address">
+            <p></p>
+            <input class="form-control" ng-model="newOrder.phone" type="text" placeholder="Телефон" aria-label="Phone"
+                   name="phone">
+        </form>
+        <button ng-click="createOrder()" class="btn btn-primary" ng-if="cartDto.items.length > 0">Оформить заказ</button>
+
+        <p></p>
+        <h4>Мои заказы</h4>
+        <span ng-if="myOrders.length == 0">Вы пока не сделали ни одного заказа</span>
+        <table class="table" ng-if="myOrders.length > 0">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="order in myOrders">
+                <td>{{order.id}}</td>
+                <td>{{order.description}}</td>
+                <td>{{order.price}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--    <p></p>-->
+    <!--    <h4>Add new product</h4>-->
+    <!--    <div>-->
+    <!--        <form novalidate ng-submit="createNewProduct()">-->
+    <!--            <div class="mb-3">-->
+    <!--                <label for="inputTitle" class="form-label">Title</label>-->
+    <!--                <input type="text" class="form-control" ng-model="newProduct.title" id="inputTitle" aria-describedby="titleHelp">-->
+    <!--            </div>-->
+    <!--            <div class="mb-3">-->
+    <!--                <label for="inputPrice" class="form-label">Price</label>-->
+    <!--                <input type="number" class="form-control" ng-model="newProduct.price" id="inputPrice" aria-describedby="priceHelp">-->
+    <!--            </div>-->
+    <!--            <button type="submit" class="btn btn-primary">Submit</button>-->
+    <!--        </form>-->
+    <!--    </div>-->
 </div>
 </body>
 </html>

@@ -24,24 +24,21 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
             $scope.paginationArray = $scope.generatePagesIndexes(minPageIndex, maxPageIndex);
 
+            console.log("PAGE FROM BACKEND")
             console.log($scope.productsPage);
         });
     };
 
-    $scope.createNewProduct = function () {
-        $http.post(contextPath + '/api/v1/products', $scope.newProduct)
-            .then(function successCallback(response) {
-                $scope.loadPage(1);
-                $scope.newProduct = null;
-            }, function errorCallback(response) {
-                console.log(response.data);
-                alert('Error: ' + response.data.messages);
-            });
-    };
-
-    $scope.clickOnProduct = function (product) {
-        console.log(product);
-    }
+    // $scope.createNewProduct = function () {
+    //     $http.post(contextPath + '/api/v1/products', $scope.newProduct)
+    //         .then(function successCallback(response) {
+    //             $scope.loadPage(1);
+    //             $scope.newProduct = null;
+    //         }, function errorCallback(response) {
+    //             console.log(response.data);
+    //             alert('Error: ' + response.data.messages);
+    //         });
+    // };
 
     $scope.loadCart = function (page) {
         $http({
@@ -87,6 +84,8 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    $scope.showMyOrders();
                 }
             }, function errorCallback(response) {
             });
@@ -118,9 +117,46 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         });
     };
 
+    $scope.showMyOrders = function () {
+        $http({
+            url: contextPath + '/api/v1/orders',
+            method: 'GET'
+        }).then(function (response) {
+            $scope.myOrders = response.data;
+        });
+    };
+
+    $scope.createOrder = function () {
+        $http({
+            url: contextPath + '/api/v1/orders',
+            method: 'POST'
+        }).then(function (response) {
+            $scope.showMyOrders();
+            $scope.loadCart();
+        });
+    };
+
+    $scope.clearCart = function () {
+        $http({
+            url: contextPath + '/api/v1/cart/clear',
+            method: 'GET'
+        }).then(function (response) {
+            $scope.loadCart();
+        });
+    };
+
+    $scope.saveOrder = function() {
+        $http.post(contextPath + '/api/v1/orders', $scope.newOrder)
+            .then(function successCallback(response) {
+                console.log("Заказ сохранен");
+                $scope.clearCart();
+            });
+    };
+
     if ($localStorage.aprilMarketCurrentUser) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.aprilMarketCurrentUser.token;
-    }
+        $scope.showMyOrders();
+    };
 
     $scope.loadPage(1);
     $scope.loadCart();

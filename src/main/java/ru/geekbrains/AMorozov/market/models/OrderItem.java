@@ -1,4 +1,4 @@
-package ru.geekbrains.AMorozov.market.model;
+package ru.geekbrains.AMorozov.market.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,12 +8,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Table(name = "order_items")
 @Data
 @NoArgsConstructor
-@Table(name = "orders")
-public class Order {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,13 +33,9 @@ public class Order {
     @Column(name = "price")
     private BigDecimal price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "order_id")
-    private OrderItem orderItem;
-
-    @OneToOne
-    @JoinColumn(name = "username")
-    private User user;
+    private Order order;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -48,10 +45,20 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Order(OrderItem orderItem){
-        this.product = orderItem.getProduct();
-        this.quantity = orderItem.getQuantity();
-        this.pricePerProduct = orderItem.getPricePerProduct();
-        this.price = orderItem.getPrice();
+    public OrderItem(Product product) {
+        this.product = product;
+        this.quantity = 1;
+        this.pricePerProduct = product.getPrice();
+        this.price = product.getPrice();
+    }
+
+    public void incrementQuantity() {
+        this.quantity++;
+        this.price = this.pricePerProduct.multiply(new BigDecimal(this.quantity));
+    }
+
+    public void decrementQuantity(){
+        this.quantity--;
+        this.price = this.pricePerProduct.divide(new BigDecimal(this.quantity));
     }
 }

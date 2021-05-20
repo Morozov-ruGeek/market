@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.AMorozov.market.dtos.ProductDto;
 import ru.geekbrains.AMorozov.market.error_handling.InvalidDataException;
 import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
-import ru.geekbrains.AMorozov.market.model.Product;
+import ru.geekbrains.AMorozov.market.models.Product;
 import ru.geekbrains.AMorozov.market.services.ProductService;
-
 
 import java.util.stream.Collectors;
 

@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
-import ru.geekbrains.AMorozov.market.model.OrderItem;
-import ru.geekbrains.AMorozov.market.model.Product;
+import ru.geekbrains.AMorozov.market.models.OrderItem;
+import ru.geekbrains.AMorozov.market.models.Product;
 import ru.geekbrains.AMorozov.market.services.ProductService;
 
 
@@ -42,6 +42,16 @@ public class Cart {
         recalculate();
     }
 
+    public void deleteProduct(Long id) {
+        for (OrderItem orderItem : items) {
+            if (orderItem.getProduct().getId().equals(id)) {
+                orderItem.decrementQuantity();
+                recalculate();
+                return;
+            }
+        }
+    }
+
     public void clear() {
         items.clear();
         recalculate();
@@ -56,15 +66,5 @@ public class Cart {
 
     public List<OrderItem> getItems() {
         return Collections.unmodifiableList(items);
-    }
-
-    public void deleteProduct(Long id) {
-        for (OrderItem orderItem : items) {
-            if (orderItem.getProduct().getId().equals(id)) {
-                orderItem.decrementQuantity();
-                recalculate();
-                return;
-            }
-        }
     }
 }

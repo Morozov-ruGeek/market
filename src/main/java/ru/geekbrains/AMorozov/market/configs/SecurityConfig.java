@@ -15,15 +15,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final ru.geekbrains.AMorozov.market.configs.JwtRequestFilter jwtRequestFilter;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/api/v1/users/registration/**").permitAll()
                 .antMatchers("/api/v1/orders/**").authenticated()
-
+                .antMatchers("/api/v1/users/me").authenticated() // todo remove this demo code
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll()
                 .and()

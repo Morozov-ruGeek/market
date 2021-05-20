@@ -2,7 +2,8 @@ package ru.geekbrains.AMorozov.market.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.geekbrains.AMorozov.market.model.Category;
+import ru.geekbrains.AMorozov.market.models.Category;
+
 
 @Data
 @NoArgsConstructor

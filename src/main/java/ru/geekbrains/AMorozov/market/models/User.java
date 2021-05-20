@@ -1,8 +1,9 @@
-package ru.geekbrains.AMorozov.market.model;
+package ru.geekbrains.AMorozov.market.models;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import ru.geekbrains.AMorozov.market.dtos.NewUserRegistrationDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,4 +40,10 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public User(NewUserRegistrationDto newUserDto) {
+        this.username = newUserDto.getUsername();
+        this.password = newUserDto.getPassword();
+        this.email = newUserDto.getEmail();
+    }
 }

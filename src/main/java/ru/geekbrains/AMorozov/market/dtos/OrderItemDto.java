@@ -2,10 +2,13 @@ package ru.geekbrains.AMorozov.market.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.geekbrains.AMorozov.market.model.OrderItem;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import ru.geekbrains.AMorozov.market.models.OrderItem;
 
-
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
