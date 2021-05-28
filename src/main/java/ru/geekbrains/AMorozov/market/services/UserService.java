@@ -1,6 +1,7 @@
 package ru.geekbrains.AMorozov.market.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,15 +18,23 @@ import ru.geekbrains.AMorozov.market.models.Role;
 import ru.geekbrains.AMorozov.market.models.User;
 import ru.geekbrains.AMorozov.market.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -42,14 +51,14 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-//    TODO исправить циклическую зависимость JwtReqFilter->UserService->SecurityConfig
-
-//    public void registrationNewUser(NewUserRegistrationDto newUserDto) {
-//        if (userRepository.findByUsername(newUserDto.getUsername()).isPresent()) {
-//            new ResponseEntity<>(new MarketError(HttpStatus.NOT_ACCEPTABLE.value(), "Пользователь с таким именем уже существует!"), HttpStatus.NOT_ACCEPTABLE);
-//        }
-//        newUserDto.setPassword(passwordEncoder.encode(newUserDto.getPassword()));
-//        User user = new User(newUserDto);
-//        userRepository.save(user);
-//    }
+    @Transactional
+    public void registrationNewUser(NewUserRegistrationDto newUserDto) {
+        if (userRepository.findByUsername(newUserDto.getUsername()).isPresent()) {
+            new ResponseEntity<>(new MarketError(HttpStatus.NOT_ACCEPTABLE.value(), "Пользователь с таким именем уже существует!"), HttpStatus.NOT_ACCEPTABLE);
+        }
+        newUserDto.setPassword(passwordEncoder.encode(newUserDto.getPassword()));
+        newUserDto.setRole(roleService.findRoleByName("ROLE_USER"));
+        User user = new User(newUserDto);
+        userRepository.save(user);
+    }
 }

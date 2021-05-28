@@ -17,6 +17,7 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final Cart cart;
+    private final CartService cartService;
     private final UserService userService;
 
     public List<Order> findAllByUser(User user) {
@@ -24,7 +25,7 @@ public class OrderService {
     }
 
     public Order createOrderForCurrentUser(User user, String address, int phoneNumber) {
-        Long userId = userService.findByUsername(user.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found by login " + user)).getId();
+//        Long userId = userService.findByUsername(user.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found by login " + user)).getId();
         Order order = new Order();
         order.setUser(user);
         order.setPrice(cart.getSum());
@@ -32,11 +33,10 @@ public class OrderService {
         for (OrderItem oi : cart.getItems()) {
             oi.setOrder(order);
         }
-        order = orderRepository.save(order);
-//        todo добавить адрес и телефон
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
-        cart.clear();
+        order = orderRepository.save(order);
+        cartService.clear();
         return order;
     }
 }

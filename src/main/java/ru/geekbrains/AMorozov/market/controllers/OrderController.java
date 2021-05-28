@@ -9,6 +9,7 @@ import ru.geekbrains.AMorozov.market.services.OrderService;
 import ru.geekbrains.AMorozov.market.services.UserService;
 
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/orders")
-public class OrderController {
+public class OrderController implements Serializable {
     private final OrderService orderService;
     private final UserService userService;
 
@@ -24,7 +25,6 @@ public class OrderController {
     public void createNewOrder(Principal principal,
                                @RequestBody OrderDto orderDto) {
         User user = userService.findByUsername(principal.getName()).get();
-
         orderService.createOrderForCurrentUser(user, orderDto.getAddress(), orderDto.getPhoneNumber());
     }
 

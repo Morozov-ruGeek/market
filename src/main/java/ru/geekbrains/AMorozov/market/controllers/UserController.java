@@ -1,7 +1,6 @@
 package ru.geekbrains.AMorozov.market.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.AMorozov.market.dtos.NewUserRegistrationDto;
 import ru.geekbrains.AMorozov.market.dtos.UserDto;
@@ -23,8 +22,8 @@ public class UserController {
         return new UserDto(currentUser.getUsername(), currentUser.getEmail());
     }
 
-//    @PostMapping("/register")
-//    public void registrationNewUser(@RequestBody NewUserRegistrationDto newUserDto) {
-//        userService.registrationNewUser(newUserDto);
-//    }
+    @PostMapping("/register")
+    public void registrationNewUser(@RequestBody NewUserRegistrationDto newUserDto) {
+        userService.registrationNewUser(newUserDto);
+    }
 }

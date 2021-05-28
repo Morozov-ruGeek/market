@@ -3,6 +3,7 @@ package ru.geekbrains.AMorozov.market.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.AMorozov.market.dtos.ProductDto;
@@ -21,8 +22,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public Page<Product> findPage(int page, int pageSize) {
-        return productRepository.findAllBy(PageRequest.of(page, pageSize));
+    public Page<ProductDto> findAll(Specification<Product> spec, int page, int pageSize){
+        return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
     }
 
     public Optional<Product> findById(Long id) {
