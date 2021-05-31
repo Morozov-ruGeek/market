@@ -18,6 +18,7 @@ import ru.geekbrains.AMorozov.market.models.Role;
 import ru.geekbrains.AMorozov.market.models.User;
 import ru.geekbrains.AMorozov.market.repositories.UserRepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService{
     private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;

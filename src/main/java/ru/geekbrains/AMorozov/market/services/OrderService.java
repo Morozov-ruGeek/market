@@ -10,11 +10,12 @@ import ru.geekbrains.AMorozov.market.repositories.OrderRepository;
 import ru.geekbrains.AMorozov.market.utils.Cart;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderService{
     private final OrderRepository orderRepository;
     private final Cart cart;
     private final CartService cartService;
@@ -36,7 +37,7 @@ public class OrderService {
         order.setAddress(address);
         order.setPhoneNumber(phoneNumber);
         order = orderRepository.save(order);
-        cartService.clear();
+        cart.clear();
         return order;
     }
 }

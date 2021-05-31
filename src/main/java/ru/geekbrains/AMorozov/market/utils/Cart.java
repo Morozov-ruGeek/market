@@ -24,13 +24,24 @@ import java.util.List;
 @RequiredArgsConstructor
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart implements Serializable {
-    private final ProductService productService;
     private List<OrderItem> items;
     private BigDecimal sum;
 
     @PostConstruct
     public void init() {
         items = new ArrayList<>();
+    }
+
+    public void clear() {
+        items.clear();
+        recalculate();
+    }
+
+    public void recalculate() {
+        sum = BigDecimal.ZERO;
+        for (OrderItem oi : items) {
+            sum = sum.add(oi.getPrice());
+        }
     }
 
     public List<OrderItem> getItems() {

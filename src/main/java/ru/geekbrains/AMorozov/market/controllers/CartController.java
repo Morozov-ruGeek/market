@@ -7,6 +7,7 @@ import ru.geekbrains.AMorozov.market.dtos.CartDto;
 import ru.geekbrains.AMorozov.market.services.CartService;
 import ru.geekbrains.AMorozov.market.utils.Cart;
 
+
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public class CartController implements Serializable {
 
     @GetMapping("/clear")
     public void clearCart() {
-        cartService.clear();
+        cart.clear();
     }
 
     @GetMapping

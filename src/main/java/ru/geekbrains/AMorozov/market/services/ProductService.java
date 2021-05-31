@@ -12,13 +12,11 @@ import ru.geekbrains.AMorozov.market.models.Category;
 import ru.geekbrains.AMorozov.market.models.Product;
 import ru.geekbrains.AMorozov.market.repositories.ProductRepository;
 
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductService{
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
