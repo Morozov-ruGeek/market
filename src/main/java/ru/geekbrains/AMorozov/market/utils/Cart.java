@@ -24,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart implements Serializable {
+    private static final long serialVersionUID = 7608085283765932188L;
     private List<OrderItem> items;
     private BigDecimal sum;
 
