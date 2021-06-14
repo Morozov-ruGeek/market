@@ -18,33 +18,24 @@ import java.math.BigDecimal;
 @Slf4j
 public class CartController implements Serializable {
     private final CartService cartService;
-    private final Cart cart;
 
     @GetMapping("/add/{productId}")
-    public void addToCart(HttpSession session, @PathVariable(name = "productId") Long id) {
-        Cart cart = (Cart) session.getAttribute("user_cart");
+    public void addToCart(@PathVariable(name = "productId") Long id) {
         cartService.addToCart(id);
-        session.setAttribute("user_cart", cart);
-    }
-
-    @GetMapping("/remove/{productId}")
-    public void removeFromCart(@PathVariable(name = "productId") Long id){
-//        todo задать вопрос на вебинаре правильную реализацию через HttpService or not
-        cartService.deleteProduct(id);
     }
 
     @GetMapping("/clear")
     public void clearCart() {
-        cart.clear();
+        cartService.clearCart();
     }
 
     @GetMapping
     public CartDto getCart() {
-        return new CartDto(cart);
+        return cartService.getCurrentCart();
     }
 
-    @GetMapping("/cart_sum")
-    public BigDecimal getSum() {
-        return cart.getSum();
+    @GetMapping("/delete/{productId}")
+    public void deleteProductFromCart(@PathVariable(name = "productId") Long id){
+        cartService.deleteProductFromCart(id);
     }
 }

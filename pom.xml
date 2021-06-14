@@ -8,14 +8,17 @@
         <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>ru.geekbrains.AMorozov.market</groupId>
     <artifactId>market</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>market</name>
     <description>Market Spring Boot + JS</description>
+
     <properties>
         <java.version>11</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

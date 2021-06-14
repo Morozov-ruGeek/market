@@ -26,7 +26,6 @@ public class OrderService{
     }
 
     public Order createOrderForCurrentUser(User user, String address, int phoneNumber) {
-//        Long userId = userService.findByUsername(user.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found by login " + user)).getId();
         Order order = new Order();
         order.setUser(user);
         order.setPrice(cart.getSum());

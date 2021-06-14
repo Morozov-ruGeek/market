@@ -2,6 +2,7 @@ package ru.geekbrains.AMorozov.market.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.geekbrains.AMorozov.market.dtos.CartDto;
 import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.AMorozov.market.models.OrderItem;
 import ru.geekbrains.AMorozov.market.models.Product;
@@ -13,26 +14,24 @@ public class CartService{
     private final Cart cart;
     private final ProductService productService;
 
-    public void addToCart(Long id) {
-        for (OrderItem orderItem : cart.getItems()) {
-            if (orderItem.getProduct().getId().equals(id)) {
-                orderItem.incrementQuantity();
-                cart.recalculate();
-                return;
-            }
+    public void addToCart(Long productId){
+        if(cart.addToCart(productId)){
+            return;
         }
-        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + id + " (add to cart)"));
-        cart.getItems().add(new OrderItem(product));
+
+        Product product = productService.findById(productId).orElseThrow(()-> new ResourceNotFoundException("Product doesn't exists id: " + productId + " (add to cart)"));
+        cart.addToCart(product);
     }
 
-    public void deleteProduct(Long id) {
-        for (OrderItem orderItem : cart.getItems()) {
-            if (orderItem.getProduct().getId().equals(id)) {
-                orderItem.decrementQuantity();
-                cart.recalculate();
-                return;
-            }
-        }
+    public CartDto getCurrentCart(){
+        return new CartDto(cart);
     }
 
+    public void clearCart(){
+        cart.clear();
+    }
+
+    public void deleteProductFromCart(Long id) {
+        cart.deleteProduct(id);
+    }
 }

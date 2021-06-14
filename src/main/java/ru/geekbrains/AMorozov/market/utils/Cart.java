@@ -31,11 +31,38 @@ public class Cart implements Serializable {
     @PostConstruct
     public void init() {
         items = new ArrayList<>();
+        sum = BigDecimal.ZERO;
+    }
+
+    public boolean addToCart(Long id) {
+        for (OrderItem orderItem : items) {
+            if (orderItem.getProduct().getId().equals(id)) {
+                orderItem.incrementQuantity();
+                recalculate();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addToCart(Product product) {
+        items.add(new OrderItem(product));
+        recalculate();
     }
 
     public void clear() {
         items.clear();
         recalculate();
+    }
+
+    public void deleteProduct(Long id) {
+        for (OrderItem orderItem : items) {
+            if (orderItem.getProduct().getId().equals(id)) {
+                orderItem.decrementQuantity();
+                recalculate();
+                return;
+            }
+        }
     }
 
     public void recalculate() {
