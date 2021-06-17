@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-@Data
-@Slf4j
+//@Component
+//@Data
+//@Slf4j
+@Deprecated
 class TimeKeeper {
     private final Map<String, Long> timing;
 
