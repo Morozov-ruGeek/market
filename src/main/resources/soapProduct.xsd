@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xp:schema xmlns:xp="http://www.w3.org/2001/XMLSchema"
+           xmlns:tnp="http://www.amorozov.com/spring/ws/soapProduct"
+           targetNamespace="http://www.amorozov.com/spring/ws/soapProduct" elementFormDefault="qualified">
+
+
+    <xp:element name="getAllProductsRequest">
+        <xp:complexType/>
+    </xp:element>
+
+    <xp:element name="getProductByIdRequest">
+        <xp:complexType>
+            <xp:sequence>
+                <xp:element name="id" type="xp:long"/>
+            </xp:sequence>
+        </xp:complexType>
+    </xp:element>
+
+    <xp:element name="getProductByIdResponse">
+        <xp:complexType>
+            <xp:sequence>
+                <xp:element name="soapProduct" type="tnp:soapProduct"/>
+            </xp:sequence>
+        </xp:complexType>
+    </xp:element>
+
+    <xp:element name="getAllProductsResponse">
+        <xp:complexType>
+            <xp:sequence>
+                <xp:element name="soapProduct" maxOccurs="unbounded" type="tnp:soapProduct"/>
+            </xp:sequence>
+        </xp:complexType>
+    </xp:element>
+
+    <xp:complexType name="soapProduct">
+            <xp:sequence>
+                <xp:element name="id" type="xp:long"/>
+                <xp:element name="title" type="xp:string"/>
+                <xp:element name="price" type="xp:decimal"/>
+                <xp:element name="soapProductCategory" type="xp:string"/>
+            </xp:sequence>
+    </xp:complexType>
+
+</xp:schema>
