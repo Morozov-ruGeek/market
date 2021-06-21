@@ -10,6 +10,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.AMorozov.market.dtos.ProductDto;
+import ru.geekbrains.AMorozov.market.dtos.StringRequest;
 import ru.geekbrains.AMorozov.market.error_handling.InvalidDataException;
 import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.AMorozov.market.models.Product;
@@ -55,5 +56,17 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         productService.deleteById(id);
+    }
+
+//    TODO product comment by productId
+//    @GetMapping("/comment/{id}")
+//    public String showProductComment(@PathVariable Long productId){
+//
+//        return ;
+//    }
+
+    public void createProductComment(@PathVariable Long productId, StringRequest str){
+        productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product doesn't exists id: " + productId));
+        productService.createProductComment(str);
     }
 }

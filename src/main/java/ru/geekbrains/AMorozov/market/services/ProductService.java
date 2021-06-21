@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.AMorozov.market.dtos.ProductDto;
+import ru.geekbrains.AMorozov.market.dtos.StringRequest;
 import ru.geekbrains.AMorozov.market.error_handling.ResourceNotFoundException;
 import ru.geekbrains.AMorozov.market.models.Category;
 import ru.geekbrains.AMorozov.market.models.Product;
@@ -74,4 +75,9 @@ public class ProductService{
         sProduct.setSoapProductCategory(product.getCategory().getTitle());
         return sProduct;
     };
+
+    public void createProductComment(StringRequest str) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+    }
 }

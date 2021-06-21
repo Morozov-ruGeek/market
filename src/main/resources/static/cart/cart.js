@@ -4,7 +4,10 @@ angular.module('app').controller('cartController', function ($scope, $http, $loc
     $scope.loadCart = function (page) {
         $http({
             url: contextPath + '/api/v1/cart',
-            method: 'GET'
+            method: 'GET',
+            params: {
+                cartName: $localStorage.cartId
+            }
         }).then(function (response) {
             $scope.cartDto = response.data;
         });
@@ -13,14 +16,17 @@ angular.module('app').controller('cartController', function ($scope, $http, $loc
     $scope.clearCart = function () {
         $http({
             url: contextPath + '/api/v1/cart/clear',
-            method: 'GET'
+            method: 'GET',
+            params: {
+                cartName: $localStorage.cartId
+            }
         }).then(function (response) {
             $scope.loadCart();
         });
     };
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.aprilMarketCurrentUser) {
+        if ($localStorage.marketCurrentUser) {
             return true;
         } else {
             return false;
@@ -36,19 +42,27 @@ angular.module('app').controller('cartController', function ($scope, $http, $loc
         });
     };
 
-    $scope.addToCart = function (productId) {
+    $scope.decrementProduct = function (productId) {
         $http({
-            url: contextPath + '/api/v1/cart/add/' + productId,
-            method: 'GET'
+            url: contextPath + '/api/v1/cart/dec/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.cartId
+            }
         }).then(function (response) {
             $scope.loadCart();
         });
     }
 
-    $scope.deleteFromCart = function (productId) {
+    $scope.addToCart = function (productId) {
         $http({
-            url: contextPath + '/api/v1/cart/delete/' + productId,
-            method: 'GET'
+            url: contextPath + '/api/v1/cart/add/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.cartId
+            }
         }).then(function (response) {
             $scope.loadCart();
         });

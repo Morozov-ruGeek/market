@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "products")
 @NoArgsConstructor
 @Data
-public class Product implements Serializable {
-    private static final long serialVersionUID = -3952225971695256485L;
+public class Product{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

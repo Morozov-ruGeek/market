@@ -15,17 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Slf4j
-@EnableAspectJAutoProxy
-@ComponentScan("ru.geekbrains.AMorozov.market")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private JwtRequestFilter jwtRequestFilter;
-
-
-    @Autowired
-    public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter) {
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/users/registration/**").permitAll()
                 .antMatchers("/api/v1/orders/**").authenticated()
-                .antMatchers("/api/v1/users/me").authenticated() // todo remove this demo code
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll()
                 .and()

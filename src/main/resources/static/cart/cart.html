@@ -12,7 +12,7 @@
     <tr ng-repeat="oi in cartDto.items">
         <td>{{oi.productTitle}}</td>
         <td>
-            <button class="btn btn-primary" ng-click="removeFromCart(oi.productId)">-</button>
+            <button class="btn btn-primary" ng-click="decrementProduct(oi.productId)">-</button>
             {{oi.quantity}}
             <button class="btn btn-primary" ng-click="addToCart(oi.productId)">+</button>
         </td>
@@ -25,11 +25,11 @@
     </tr>
     </tbody>
 </table>
-<span ng-if="cartDto.items.length == 0">Ваша корзина пуста</span>
-<button ng-click="clearCart()" class="btn btn-primary" ng-if="cartDto.items.length > 0">Очистить корзину</button>
+<span ng-show="cartDto.items.length == 0">Ваша корзина пуста</span>
+<button ng-click="clearCart()" class="btn btn-primary" ng-show="cartDto.items.length > 0">Очистить корзину</button>
 
-<div ng-show="isUserLoggedIn()">
+<div ng-show="isUserLoggedIn() && cartDto.items.length > 0">
     <p></p>
     <h4>Оформление заказа</h4>
-    <button ng-click="createOrder()" class="btn btn-primary" ng-show="cartDto.items.length > 0">Оформить заказ</button>
+    <button ng-click="createOrder()" class="btn btn-primary">Оформить заказ</button>
 </div>

@@ -1,8 +1,8 @@
-angular.module('app').controller('productsController', function ($scope, $http, $localStorage) {
+angular.module('app').controller('productsController', function ($scope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:8189/market';
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.aprilMarketCurrentUser) {
+        if ($localStorage.marketCurrentUser) {
             return true;
         } else {
             return false;
@@ -21,6 +21,7 @@ angular.module('app').controller('productsController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
+            console.log($scope.productsPage);
 
             let minPageIndex = page - 2;
             if (minPageIndex < 1) {
@@ -38,23 +39,19 @@ angular.module('app').controller('productsController', function ($scope, $http, 
 
     $scope.addToCart = function (productId) {
         $http({
-            url: contextPath + '/api/v1/cart/add/' + productId,
-            method: 'GET'
+            url: contextPath + '/api/v1/cart/add/',
+            method: 'GET',
+            params: {
+                prodId: productId,
+                cartName: $localStorage.cartId
+            }
         }).then(function (response) {
-            $scope.loadCart();
         });
-
-        $scope.removeFromCart = function (productId) {
-            $http({
-                url: contextPath + '/api/v1/cart/remove/' + productId,
-                method: 'GET'
-            }).then(function (response) {
-                $scope.loadCart();
-            });
-        }
     }
 
-
+    $scope.showProductInfo = function (productId) {
+        $location.path('/product_info/' + productId);
+    }
 
     $scope.generatePagesIndexes = function (startPage, endPage) {
         let arr = [];
@@ -62,19 +59,6 @@ angular.module('app').controller('productsController', function ($scope, $http, 
             arr.push(i);
         }
         return arr;
-    }
-
-    $scope.showMyOrders = function () {
-        $http({
-            url: contextPath + '/api/v1/orders',
-            method: 'GET'
-        }).then(function (response) {
-            $scope.myOrders = response.data;
-        });
-    };
-
-    if ($scope.isUserLoggedIn()) {
-        $scope.showMyOrders();
     }
 
     $scope.loadPage(1);

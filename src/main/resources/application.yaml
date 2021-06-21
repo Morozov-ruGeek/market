@@ -20,7 +20,7 @@ spring:
         web-allow-others: false
   session:
     store-type: redis
-    redis:
-      host: localhost
-      password:
-      port: 6379
+  redis:
+    host: localhost
+    password:
+    port: 6379

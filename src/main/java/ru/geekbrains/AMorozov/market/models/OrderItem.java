@@ -15,8 +15,7 @@ import java.util.List;
 @Table(name = "order_items")
 @Data
 @NoArgsConstructor
-public class OrderItem implements Serializable {
-    private static final long serialVersionUID = -1780433618264998677L;
+public class OrderItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

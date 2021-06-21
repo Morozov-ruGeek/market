@@ -7,9 +7,12 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @PropertySource("classpath:secured.properties")
 public class MarketApplication {
-	// Домашнее задание:
-	// 1. Добавить к магазину возможность выгрузки всех товаров,
-	// и отдельных товаров по id через SOAP сервис
+    /*
+        Домашнее задание:
+        1. Отдельная страница для просмотра информации о товаре
+        2. Комментарии клиентов к товарам
+        3. * Комментарии пользователь может оставлять только если он покупал этот товар
+     */
 
 	public static void main(String[] args) {
 		SpringApplication.run(MarketApplication.class, args);

@@ -22,10 +22,9 @@ public class OrderController implements Serializable {
     private final UserService userService;
 
     @PostMapping
-    public void createNewOrder(Principal principal,
-                               @RequestBody OrderDto orderDto) {
+    public void createNewOrder(Principal principal) {
         User user = userService.findByUsername(principal.getName()).get();
-        orderService.createOrderForCurrentUser(user, orderDto.getAddress(), orderDto.getPhoneNumber());
+        orderService.createOrderForCurrentUser(user);
     }
 
     @GetMapping
